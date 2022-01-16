@@ -5,30 +5,12 @@ import wpChain, {WPChain} from 'src/helper/wpChain'
 import {Configuration} from 'webpack'
 import WPModule from './module'
 class WPLibMode {
-  libConfig: LibModeType
+  libConfigs: LibModeType[] = []
   wpconfigs: Configuration[] = []
   isDev = false
   module = new WPModule()
 
-  constructor() {
-    this.libConfig = {
-      name: 'index',
-      entry: 'index.js',
-      formats: ['umd'],
-    }
-  }
-  async setup() {
-    this.isDev = store.config.mode === 'development'
-    this.initBuildLib()
-    this.resetWpchain()
-    //
-    for (const format of this.libConfig.formats) {
-      await this.libTarget(format)
-      this.resetConfig(format)
-    }
-    if (store.config.debug.wplogger) console.log('[webpack config]', JSON.stringify(this.wpconfigs, null, 2))
-    return this.wpconfigs
-  }
+  constructor() {}
   private resetWpchain() {
     // Object.keys(this.libConfig.entry).map(k => wpChain.plugins.delete('html_plugin_' + k))
     // if (this.libConfig.name) {
@@ -37,22 +19,41 @@ class WPLibMode {
     wpChain.plugins.delete('html_plugin_index')
     wpChain.plugins.delete('mf')
     // externals
-    if (this.libConfig.external) {
+    /* if (this.libConfig.external) {
       wpChain.externals(this.libConfig.external)
-    }
+    } */
     if (store.config.mode === 'production') {
       wpChain.plugins.delete('copy')
       wpChain.devtool('source-map')
     }
   }
-  private resetConfig(format: buildLibType) {
+  async setup() {
+    this.isDev = store.config.mode === 'development'
+    this.initBuildLib()
+    this.resetWpchain()
+    await this.module.setup()
+    //
+    this.libConfigs.map(lib => {
+      this.setLibConfig(lib)
+    })
+    if (store.config.debug.wplogger) console.log('[webpack config]', JSON.stringify(this.wpconfigs, null, 2))
+    return this.wpconfigs
+  }
+
+  private setLibConfig(lib: LibModeType) {
+    const format = lib.format || 'umd'
     const config: Configuration = wpChain.toConfig()
     if (config.devServer) {
       delete config.devServer
     }
+    //
+    if (lib.format === 'esm') {
+      store.isESM = true
+      store.config.build.target = lib.format === 'esm' ? 'es2018' : 'es5'
+    }
 
     const wp: Configuration = {...config, ...{watch: this.isDev}}
-    wp.entry = {[this.libConfig.name || 'index']: this.libConfig.entry}
+    wp.entry = {[lib.name || 'index']: lib.entry}
     wp.cache =
       typeof wp.cache === 'object'
         ? {
@@ -60,7 +61,7 @@ class WPLibMode {
             ...{
               name: `${store.pkg.name || 'emp'}-${store.config.mode}-${store.config.env || 'local'}-${
                 store.pkg.version
-              }-${format}`,
+              }-${lib.format}`,
               type: 'filesystem',
             },
           }
@@ -73,10 +74,10 @@ class WPLibMode {
         clean: wp.output?.clean || true,
         path: store.resolve(path.join(store.outDir, format)),
         filename:
-          typeof this.libConfig.fileName === 'function'
-            ? this.libConfig.fileName(format)
-            : typeof this.libConfig.fileName === 'string'
-            ? this.libConfig.fileName
+          typeof lib.fileName === 'function'
+            ? lib.fileName(format)
+            : typeof lib.fileName === 'string'
+            ? lib.fileName
             : `[name].js`,
         // library: {type: format === 'esm' ? 'module' : format},
         assetModuleFilename: '[name][ext]',
@@ -87,7 +88,7 @@ class WPLibMode {
     // delete wp.output.assetModuleFilename
     wp.output.library = {type: format === 'esm' ? 'module' : format}
     if (format !== 'esm') {
-      wp.output.library.name = this.libConfig.name
+      wp.output.library.name = lib.name
     }
     if (format === 'umd') {
       wp.output.umdNamedDefine = true
@@ -95,7 +96,7 @@ class WPLibMode {
     wp.optimization = {...wp.optimization, ...{minimize: !this.isDev, chunkIds: 'named', emitOnErrors: true}}
     const isESM = format === 'esm'
     //
-    wp.target = ['web', store.config.build.target]
+    wp.target = [lib.target || 'web', store.config.build.target]
     // wp.target = store.config.build.target
     wp.experiments = {...wp.experiments, ...{outputModule: isESM}}
     //
@@ -106,15 +107,37 @@ class WPLibMode {
     this.wpconfigs.push(wp)
   }
   private initBuildLib() {
-    this.libConfig = {...this.libConfig, ...store.config.build.lib}
+    // this.libConfig = {...this.libConfig, ...store.config.build.lib}
+    const libs = store.config.build.lib
+    if (Array.isArray(libs)) {
+      libs.map(lib => {
+        if (lib.formats) {
+          lib.formats.map(f => {
+            lib.format = f
+            this.libConfigs.push(lib)
+          })
+        } else {
+          this.libConfigs.push(lib)
+        }
+      })
+    } else {
+      if (libs.formats) {
+        libs.formats.map(f => {
+          libs.format = f
+          this.libConfigs.push(libs)
+        })
+      } else {
+        this.libConfigs.push(libs)
+      }
+    }
   }
-  private async libTarget(format: buildLibType) {
+  /*  private async libTarget(format: buildLibType) {
     if (format === 'esm') {
       store.isESM = true
       store.config.build.target = format === 'esm' ? 'es2018' : 'es5'
     }
-    await Promise.all([this.module.setup()])
-  }
+    // await Promise.all([this.module.setup()])
+  } */
 }
 
 export default new WPLibMode()

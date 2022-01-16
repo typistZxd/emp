@@ -36,8 +36,17 @@ export type LibModeType = {
    */
   fileName?: FileNameType | string
   /**
+   * 输出目标
+   * @default web
+   */
+  target?: string
+  /**
+   * 输出格式组
+   */
+  formats?: buildLibType[] // lib模式自动把格式分拆
+  /**
    * 输出格式
    */
-  formats: buildLibType[]
+  format?: buildLibType
   external?: Configuration['externals']
 }

@@ -48,7 +48,7 @@ export type BuildOptions = {
   /**
    * 使用 库模式
    */
-  lib?: LibModeType
+  lib?: LibModeType | LibModeType[]
   /**
    * 是否清空生成文件夹
    * @default true
@@ -93,7 +93,7 @@ export type BuildOptions = {
 export type RquireBuildOptions = Override<
   Required<BuildOptions>,
   {
-    lib?: LibModeType
+    lib?: LibModeType | LibModeType[]
     wpTarget?: Configuration['target']
     minOptions?: TerserOptions
   }

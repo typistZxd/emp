@@ -70,7 +70,8 @@ class DTSEmitFile {
     fs.ensureDirSync(this.outDir)
 
     if (this.build.lib) {
-      const libModName = this.build.lib.name || store.pkg.name
+      const lib = Array.isArray(this.build.lib) ? this.build.lib[0] : this.build.lib
+      const libModName = lib.name || store.pkg.name
       let libCode = this.lib.code
       libCode = transformLibName(libModName, libCode)
       this.libFilename = path.resolve(this.outDir, `${this.build.typesLibName}.d.ts`)
