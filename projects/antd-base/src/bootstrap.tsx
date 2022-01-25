@@ -1,5 +1,5 @@
-import {render} from 'react-dom'
-// import Layout from './AntdLayout'
-import Layout from './Layout'
-
-render(<Layout />, document.getElementById('emp-root'))
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+// import 'antd/dist/antd.css'
+ReactDOM.render(<App />, document.getElementById('emp-root'))
