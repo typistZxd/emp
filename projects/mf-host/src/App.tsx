@@ -5,7 +5,7 @@ export {Button, StoreComp}
 const App = () => {
   return (
     <>
-      <h1>Micro Host</h1>
+      <h1>Micro Host external test</h1>
       <StoreComp />
       <Button customLabel="HOST" />
     </>
