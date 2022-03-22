@@ -4,7 +4,7 @@ import wpChain from 'src/helper/wpChain'
 import fs from 'fs-extra'
 type ReactRuntimeType = 'automatic' | 'classic'
 class WPModule {
-  reactRuntime?: ReactRuntimeType
+  reactRuntime?: ReactRuntimeType = undefined
   constructor() {}
   async setup() {
     this.setConfig()
@@ -28,6 +28,22 @@ class WPModule {
               fullySpecified: false,
             },
           },
+          // shouldUseSourceMap: {
+          //   enforce: 'pre',
+          //   // exclude: /@babel(?:\/|\\{1,2})runtime/,
+          //   test: /\.(js|mjs|jsx|ts|tsx|css)$/,
+          //   use: {
+          //     sourceMapLoader: {
+          //       loader: require.resolve('source-map-loader'),
+          //       options: {
+          //         filterSourceMappingUrl(u: any, r: any) {
+          //           console.log(r)
+          //           return 'consume'
+          //         },
+          //       },
+          //     },
+          //   },
+          // },
           //
           scripts: {
             test: /\.(js|jsx|ts|tsx)$/,

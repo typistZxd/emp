@@ -10,6 +10,7 @@ import mfImage from 'src/assets/mf.png?inline'
 //   type: 'module',
 // })
 // const worker = new Worker(new URL('src/worker/index.ts?inline', import.meta.url), {type: 'module'})
+logger.warnning('[===[[emp-lib]]===] runtime')
 const img = document.createElement('img')
 img.src = mfImage
 img.style.width = '200px'

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "emp dev -cl false",
-    "build": "emp build -wl",
+    "dev": "emp dev",
+    "build": "emp build",
     "start": "emp serve"
   },
   "author": "",
@@ -14,5 +14,8 @@
     "@efox/emp": "workspace:*",
     "emp-lib": "workspace:^1.0.0",
     "webpack-lib": "workspace:^1.0.0"
+  },
+  "devDependencies": {
+    "@efox/plugin-babel-react": "workspace:^1.0.3"
   }
 }

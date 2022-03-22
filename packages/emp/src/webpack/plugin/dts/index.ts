@@ -7,7 +7,7 @@ import {logTag} from 'src/helper/logger'
 const PLUGIN_NAME = 'DTSPlugin'
 //
 class DTSPlugin {
-  options?: DTSTLoadertype
+  options?: DTSTLoadertype = undefined
   constructor(options: DTSTLoadertype) {
     this.options = options
   }

@@ -43,6 +43,7 @@ class WPCommon {
     if (fs.existsSync(empConfig)) {
       watchConfig.push(empConfig)
     }
+    return false
     return {
       name: `${store.pkg.name || 'emp'}-${store.config.mode}-${store.config.env || 'local'}-${store.pkg.version}`,
       type: 'filesystem',
@@ -51,7 +52,6 @@ class WPCommon {
         config: watchConfig,
       },
     }
-    // return false
   }
   get experiments(): Configuration['experiments'] {
     return {

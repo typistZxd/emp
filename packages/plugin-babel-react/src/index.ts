@@ -34,7 +34,6 @@ const babelOptions = {
     [require.resolve('@babel/plugin-proposal-class-properties'), {loose: true}],
   ],
 }
-console.log()
 const root = process.cwd()
 const projectResolve = (rpath: string) => path.resolve(root, rpath)
 const pkg = require(projectResolve('package.json'))

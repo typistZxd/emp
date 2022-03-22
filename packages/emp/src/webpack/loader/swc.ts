@@ -2,7 +2,7 @@ import webpack from 'webpack'
 import {RquireBuildOptions} from 'src/config/build'
 import {TransformConfig, Options, JscConfig, transformSync, transform} from '@swc/core'
 import store from 'src/helper/store'
-// import logger from 'src/helper/logger'
+import logger from 'src/helper/logger'
 const isDev = store.config.mode === 'development'
 
 class SWCOpt {
@@ -50,6 +50,7 @@ async function SWCLoader(
   source: string,
   // inputSourceMap: true,
 ) {
+  console.log(this.resourcePath, this.sourceMap, store.config.build.sourcemap)
   const done = this.async()
   const options = this.getOptions()
   const build = options
@@ -67,7 +68,8 @@ async function SWCLoader(
   const {parser, react} = swcOpt
   const swcOptions: Options = {
     sourceFileName: this.resourcePath,
-    sourceMaps: this.sourceMap,
+    sourceMaps: 'inline',
+    // inlineSourcesContent: true,
     jsc: {
       target: build.target,
       externalHelpers: false,
