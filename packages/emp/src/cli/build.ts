@@ -20,65 +20,65 @@ class Build {
     if (store.config.build.createTs && !isTypeForOutDir) {
       createDtsEmitThreadForBuild()
     }
-    this.isLib = !!store.config.build.lib
-    if (this.isLib) {
-      /**
-       * 切换到库模式
-       */
-      this.config = (await wpLibMode.setup()) as Configuration
-    } else {
-      this.config = getConfig()
-    }
-
-    if (store.config.debug.clearLog) clearConsole()
+    // this.isLib = !!store.config.build.lib
+    // if (this.isLib) {
+    //   /**
+    //    * 切换到库模式
+    //    */
+    //   this.config = (await wpLibMode.setup()) as Configuration
+    // } else {
+    //   this.config = getConfig()
+    // }
+    //
+    // if (store.config.debug.clearLog) clearConsole()
     logTag(`build mode ${store.config.mode}${this.isLib ? ' in [Library Mode] ' : ''}:`)
     // await reporter.measureFileSizesBeforeBuild()
-    webpack(this.config, (err: any, stats: any) => {
-      if (err) {
-        logger.error(err.stack || err)
-        if (err.details) {
-          logger.error(err.details)
-        }
-        return
-      }
-
-      if (stats.hasErrors()) {
-        logger.error(
-          stats.toString({
-            // all: false,
-            colors: true,
-            // errors: true,
-          }),
-        )
-        logTag('Failed to compile.', 'red')
-        if (!this.isLib) process.exit(1)
-      }
-
-      if (stats.hasWarnings()) {
-        logTag(`Compiled with warnings.`, 'yellow')
-        logger.warn(
-          stats.toString({
-            // all: false,
-            colors: true,
-            // warnings: true,
-          }),
-        )
-      }
-
-      logger.info(
-        stats.toString({
-          colors: true,
-          all: false,
-          assets: true,
-          // children: true,
-          // chunks: true,
-          // timings: true,
-          // version: true,
-        }) + '\n',
-      )
-      logTag(`Compiled successfully.`, 'green')
-      // reporter.printFileSizesAfterBuild(stats)
-    })
+    // webpack(this.config, (err: any, stats: any) => {
+    //   if (err) {
+    //     logger.error(err.stack || err)
+    //     if (err.details) {
+    //       logger.error(err.details)
+    //     }
+    //     return
+    //   }
+    //
+    //   if (stats.hasErrors()) {
+    //     logger.error(
+    //       stats.toString({
+    //         // all: false,
+    //         colors: true,
+    //         // errors: true,
+    //       }),
+    //     )
+    //     logTag('Failed to compile.', 'red')
+    //     if (!this.isLib) process.exit(1)
+    //   }
+    //
+    //   if (stats.hasWarnings()) {
+    //     logTag(`Compiled with warnings.`, 'yellow')
+    //     logger.warn(
+    //       stats.toString({
+    //         // all: false,
+    //         colors: true,
+    //         // warnings: true,
+    //       }),
+    //     )
+    //   }
+    //
+    //   logger.info(
+    //     stats.toString({
+    //       colors: true,
+    //       all: false,
+    //       assets: true,
+    //       // children: true,
+    //       // chunks: true,
+    //       // timings: true,
+    //       // version: true,
+    //     }) + '\n',
+    //   )
+    //   logTag(`Compiled successfully.`, 'green')
+    //   // reporter.printFileSizesAfterBuild(stats)
+    // })
   }
 }
 export default new Build()

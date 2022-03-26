@@ -47,12 +47,14 @@ export function createDtsEmitThreadForBuild() {
 }
 
 export function emitDts(dtsThread: Worker) {
+  console.log('store', store)
   dtsThread.postMessage(
     JSON.stringify({
       build: store.config.build,
       mf: store.config.moduleFederation,
       alias: store.config.resolve.alias,
       typesOutDir: store.config.build.typesOutDir,
+      store: store,
       needClear: !(store.config.build.outDir === store.config.build.typesOutDir),
     }),
   )

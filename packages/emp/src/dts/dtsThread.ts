@@ -9,12 +9,12 @@ const {parentPort} = require('worker_threads')
 parentPort.on('message', async (payload: any) => {
   const options = JSON.parse(payload)
   if (options) {
-    const dts = new DTSEmitFile()
+    const dts = new DTSEmitFile(options.store)
     dts.setup(options)
     logTag('DTS build')
-    const dtslist = await glob([`${store.config.appSrc}/**/*.(ts|tsx)`])
+    const dtslist = await glob([`${options.store.appSrc}/**/*.(ts|tsx)`])
     dtslist.map(d => {
-      dts.emit(d, options.alias, options.typesOutDir)
+      dts.emit(d, options.alias, options.typesOutDir, options.store)
     })
     dts.createFile()
     parentPort.postMessage('finish')
