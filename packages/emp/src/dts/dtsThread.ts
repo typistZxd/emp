@@ -1,7 +1,7 @@
 import store from 'src/helper/store'
 import DTSEmitFile from './dts'
 import glob from 'fast-glob'
-import {logTag} from 'src/helper/logger'
+import logger, {logTag} from 'src/helper/logger'
 import {MFOptions} from 'src/types'
 
 const {parentPort} = require('worker_threads')
