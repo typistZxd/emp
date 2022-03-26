@@ -47,7 +47,7 @@ export function createDtsEmitThreadForBuild() {
 }
 
 export function emitDts(dtsThread: Worker) {
-  console.log('store', store)
+  // console.log('store', store)
   dtsThread.postMessage(
     JSON.stringify({
       build: store.config.build,

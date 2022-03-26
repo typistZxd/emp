@@ -34,7 +34,7 @@ class DTSEmitFile {
   constructor(store: any) {
     this.store = store
     this.tsconfig = getTSConfig(this.store.root) || {}
-    this.outDir = path.resolve(this.store.root, 'dist/empShareTypes')
+    this.outDir = path.join(this.store.outDir, 'empShareTypes')
     this.tsconfig = {
       ...this.tsconfig,
       declaration: true,
@@ -73,8 +73,10 @@ class DTSEmitFile {
   }
   createFile() {
     if (!this.build) return
+    const typesOutDir = path.join(this.store.outDir, 'empShareTypes')
+    this.outDir = typesOutDir
     fs.ensureDirSync(this.outDir)
-
+    // console.log('this.outDir', this.outDir)
     if (this.build.lib) {
       const libModName = this.build.lib.name || this.store.pkg.name
       let libCode = this.lib.code
