@@ -195,6 +195,7 @@ module.exports={
 
 ## 库模式 [Beta]
 > 已支持 各种模块 export 支持 IE兼容，worker模式下 需要手动复制worker，inline方式需要支持
+> 注意 name 是必填字段，库名称
 ### build.lib 配置
 ```js
 type FileNameType = (format: string) => string
@@ -202,7 +203,7 @@ export type LibModeType = {
   /**
    * 全局变量 用作 amd umd var window 等共享
    */
-  name?: string
+  name: string
   /**
    *  入口文件 基于 AppSrc 目录 如 `src/index.js` 填写 `index.js` 即可
    * @default `index.js`
