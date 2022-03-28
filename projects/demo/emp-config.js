@@ -7,6 +7,7 @@ module.exports = defineConfig(config => {
   const target = 'es5'
   const isESM = !['es3', 'es5'].includes(target)
   return {
+    // plugins: [require('@efox/plugin-babel-react')],
     define: {emp: {name: 'empName', value: ['a', 'b', 'c']}},
     // base: '/',
     html: {title: 'Demo | EMP v2'},
@@ -14,6 +15,7 @@ module.exports = defineConfig(config => {
       port: 8000,
       // hot: 'only',
     },
+    jsCheck: true,
     build: {
       target,
       sourcemap: false,

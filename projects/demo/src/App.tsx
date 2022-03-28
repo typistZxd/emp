@@ -6,6 +6,7 @@ import FunctionDefault from './FunctionDefault'
 import {FunctionNamed} from './FunctionNamed'
 import {Link} from 'react-router-dom'
 import incStore from './store/incStore'
+import Decorators from './Decorators'
 import {observer} from 'mobx-react-lite'
 import partition from 'lodash/partition'
 //
@@ -24,6 +25,7 @@ const Nav = observer(() => {
       <Link to="about">About</Link>
       <p>{incStore.num}</p>
       <pre>{incStore.code}</pre>
+
       <button
         onClick={() => {
           incStore.inc()
@@ -32,6 +34,7 @@ const Nav = observer(() => {
       >
         +1
       </button>
+      <Decorators />
     </>
   )
 })

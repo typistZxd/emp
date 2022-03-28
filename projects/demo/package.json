@@ -8,12 +8,13 @@
     "build": "emp build --env prod",
     "start": "emp serve",
     "stat": "emp build --analyze",
-		"emp":"emp"
+    "emp": "emp"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@efox/emp": "workspace:^*",
+    "@efox/plugin-babel-react": "workspace:^1.0.3",
     "@types/lodash": "^4.14.177",
     "@types/react-router-dom": "^5.1.5"
   },
@@ -21,6 +22,7 @@
     "axios": "^0.21.4",
     "lodash": "^4.17.21",
     "mobx": "^6.3.7",
+    "mobx-react": "^7.2.1",
     "mobx-react-lite": "^3.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
