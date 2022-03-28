@@ -196,7 +196,7 @@ module.exports={
 ## 库模式 [Beta]
 > 已支持 各种模块 export 支持 IE兼容，worker模式下 需要手动复制worker，inline方式需要支持
 
-** 注意 name 是必填字段，库名称 **
+**注意 name 是必填字段，库名称**
 
 ### build.lib 配置
 ```js
